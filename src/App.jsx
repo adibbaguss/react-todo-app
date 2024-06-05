@@ -1,9 +1,14 @@
-import { useState } from 'react';
+// import createContext dari react
+import { useState, createContext } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Todos from './components/Todos'; // Lalukan Import
 import TodoForm from './components/TodoForm'; // import TodoForm
+
+// membuat sebuah context
+export const TodoContext = createContext();
+
 function App() {
   const [todos, setTodos] = useState([
     {
@@ -36,6 +41,11 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  const deleteTodo = (todoId) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(updatedTodos);
+  };
+
   // mendefinisikan function addTodo
   const addTodo = (todoTitle) => {
     if (todoTitle === '') {
@@ -53,14 +63,16 @@ function App() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>My Todo List</h1>
-      {/* menampilkan component Todo */}
-      {/* Teruskan function addTodo sebagai props */}
-      <TodoForm addTodo={addTodo} />
-      {/* teruskan function toggleCompleted ke component Todos */}
-      <Todos todos={todos} toggleCompleted={toggleCompleted} />
-    </div>
+    <TodoContext.Provider value={{ toggleCompleted, deleteTodo }}>
+      <div style={styles.container}>
+        <h1 style={styles.title}>My Todo List</h1>
+        {/* menampilkan component Todo */}
+        {/* Teruskan function addTodo sebagai props */}
+        <TodoForm addTodo={addTodo} />
+        {/* teruskan function toggleCompleted ke component Todos */}
+        <Todos todos={todos} />
+      </div>
+    </TodoContext.Provider>
   );
 }
 
