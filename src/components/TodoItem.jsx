@@ -1,52 +1,55 @@
-// import hook "useContext" dari React dan "TOdoContext" dar app.jsx
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TodoContext } from '../App';
-//  menerima function toggleCompleted sebagai sebagai sebuah prop
 
 const TodoItem = ({ todo }) => {
   const { toggleCompleted, deleteTodo } = useContext(TodoContext);
-  //   definiskan function getTodoTitleStyle di sini
-  const getTodoTitleStyle = () => {
-    if (todo.completed === true) {
-      return { textDecoration: 'line-through' };
-    } else {
-      return { textDecoration: 'none' };
-    }
-  };
+  const [isHovered, setIsHovered] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
-  const toggleComplated = () => {
-    console.log('toggleCompleted function is called');
+  const getTodoTitleStyle = () => {
+    return {
+      textDecoration: todo.completed ? 'line-through' : 'none',
+    };
   };
 
   return (
-    <div style={styles.todoItem}>
-      {/* menambah checkbox */}
-      <input
-        type="checkbox"
-        style={styles.checkbox}
-        //   menjalankan function toggleCompleted ketidak checkbox di-klik
-        //  Memberikan id dari todo sebagai argument
-        onChange={() => toggleCompleted(todo.id)}
-      />
-      {/* panggil function getTOdoTitleStyle */}
+    <div
+      style={{
+        ...styles.todoItem,
+        backgroundColor: isHovered ? '#dddddd' : '#fff',
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <input type="checkbox" style={styles.checkbox} checked={todo.completed} onChange={() => toggleCompleted(todo.id)} />
       <p style={getTodoTitleStyle()}>{todo.title}</p>
-      {/* menambbah button */}
-      <button style={styles.button} onClick={() => deleteTodo(todo.id)}>
+      <button
+        style={{
+          ...styles.button,
+          opacity: isButtonHovered ? 1 : 0.2,
+        }}
+        onMouseEnter={() => setIsButtonHovered(true)}
+        onMouseLeave={() => setIsButtonHovered(false)}
+        onClick={() => deleteTodo(todo.id)}
+      >
         x
       </button>
     </div>
   );
 };
 
-// memperbarui css
+// Memperbarui CSS
 const styles = {
   todoItem: {
-    border: '2px solid #f4f4f4',
-    fontSize: '24px',
+    border: '1px solid #101010',
+    fontSize: '1rem',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0 20px',
+    padding: '0 10px',
+    margin: '10px auto',
+    maxWidth: '500px',
+    cursor: 'pointer',
   },
   checkbox: {
     height: '18px',
@@ -55,12 +58,16 @@ const styles = {
   button: {
     backgroundColor: '#BB0000',
     color: '#fff',
-    height: '30px',
-    width: '30px',
-    borderRadius: '100%',
+    height: '2rem',
+    width: '2rem',
+    borderRadius: '50%',
     border: 'none',
     cursor: 'pointer',
-    fontSize: '16px',
+    fontSize: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'opacity 0.3s', // Menambahkan transisi untuk efek yang halus
   },
 };
 

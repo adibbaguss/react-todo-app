@@ -2,27 +2,29 @@ import React, { useState } from 'react';
 
 // Menerima function addTodo sebagai props
 const TodoForm = ({ addTodo }) => {
-  // mendefinisikan state "tittle"
+  // Mendefinisikan state "title"
   const [title, setTitle] = useState('');
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
-  // mendefinisikan function handleSubmit
+  // Mendefinisikan function handleSubmit
   const handleSubmit = (event) => {
     event.preventDefault();
     addTodo(title);
-    setTitle(''); //reset title-nya
+    setTitle(''); // Reset title-nya
   };
 
-  //   mendefinisikan function "handleChangeTitle"
-  const handelChangeTitle = (event) => {
+  // Mendefinisikan function "handleChangeTitle"
+  const handleChangeTitle = (event) => {
     setTitle(event.target.value);
   };
 
-  //   memeriksa pakah function "handleChangeTitle" berfungsi
+  // Memeriksa apakah function "handleChangeTitle" berfungsi
   console.log(title);
+
   return (
     <div style={styles.container}>
       <form
-        //   memanggil function addTodo ketika form dikirimkan
+        // Memanggil function addTodo ketika form dikirimkan
         onSubmit={(event) => {
           handleSubmit(event);
         }}
@@ -31,13 +33,22 @@ const TodoForm = ({ addTodo }) => {
           type="text"
           placeholder="Add your Todo"
           style={styles.formInput}
-          // menambhakan event handler "onChange"
+          // Menambahkan event handler "onChange"
           onChange={(event) => {
-            handelChangeTitle(event);
+            handleChangeTitle(event);
           }}
-          value={title} // Atur nilai dari input sesuai dengan state  "title"
+          value={title} // Atur nilai dari input sesuai dengan state "title"
         />
-        <button style={styles.button}>Add Todo</button>
+        <button
+          style={{
+            ...styles.button,
+            opacity: isButtonHovered ? 1 : 0.5,
+          }}
+          onMouseEnter={() => setIsButtonHovered(true)}
+          onMouseLeave={() => setIsButtonHovered(false)}
+        >
+          Add Todo
+        </button>
       </form>
     </div>
   );
@@ -48,14 +59,20 @@ const styles = {
     marginBottom: '32px',
   },
   formInput: {
-    height: '66px',
-    width: '40%',
+    height: '30px',
+    minWidth: '220px',
+    maxWidth: '400px',
     fontSize: '16px',
     padding: '0 16px',
+    border: '0.5px solid #000',
   },
   button: {
-    height: '72px',
+    height: '33px',
+    border: '0.5px solid #000',
+    backgroundColor: '#00FF00',
     fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'opacity 0.3s', // Menambahkan transisi untuk perubahan opasitas yang halus
   },
 };
 

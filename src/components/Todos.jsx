@@ -14,7 +14,8 @@ const Todos = ({ todos, toggleCompleted, deleteTodo }) => {
 
 const styles = {
   container: {
-    width: '40%',
+    backgrounColor: '#000000',
+    width: '50%',
     margin: '0 auto',
   },
 };
