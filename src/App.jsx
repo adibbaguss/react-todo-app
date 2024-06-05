@@ -79,10 +79,11 @@ function App() {
 const styles = {
   container: {
     textAlign: 'center',
-    padding: '12px',
+    padding: '0px',
+    margin: '0px',
   },
   title: {
-    fontSize: '36px',
+    fontSize: '30px',
   },
 };
 
